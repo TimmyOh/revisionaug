@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// client POST localhost/postcreate  x-www-form-urlencoded
 app.post('/postcreate', (req, res) => {
   const data = new Data({
     name: req.body.name,
@@ -39,6 +40,18 @@ app.get('/create', (req, res) => {
     })
     .catch(error => {
       res.status(200).json(error);
+    });
+});
+
+//localhost:5000/delete?name=Foo
+app.get('/delete', (req, res) => {
+  const query = { name: req.query.name };
+  Data.deleteMany(query)
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(error => {
+      res.status(400).json(error);
     });
 });
 
